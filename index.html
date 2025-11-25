@@ -1,12 +1,469 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <title>Hello from Cloudflare!</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Charles Cui | Software Engineer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+      background: #0a0a0a;
+      color: #00ff00;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* 终端光标闪烁效果 */
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background: #00ff00;
+      margin-left: 2px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+
+    /* 终端容器 */
+    .terminal {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    /* 终端头部 */
+    .terminal-header {
+      background: #1a1a1a;
+      padding: 10px 15px;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+
+    .terminal-title {
+      color: #888;
+      font-size: 12px;
+      margin-left: auto;
+    }
+
+    /* 终端内容区 */
+    .terminal-body {
+      background: #0a0a0a;
+      padding: 30px;
+      border: 1px solid #333;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+    }
+
+    /* ASCII 艺术 */
+    .ascii-art {
+      color: #00ff00;
+      font-size: 10px;
+      line-height: 1.2;
+      white-space: pre;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+
+    /* 命令提示符 */
+    .prompt {
+      color: #00ff00;
+      margin-right: 8px;
+    }
+
+    .user { color: #00d4ff; }
+    .host { color: #ff6b6b; }
+    .path { color: #ffd93d; }
+
+    /* 命令输出 */
+    .command {
+      margin: 15px 0;
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .command-line {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .output {
+      color: #00ff00;
+      margin-left: 20px;
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+
+    .output-section {
+      margin: 20px 0;
+      padding-left: 20px;
+      border-left: 2px solid #333;
+    }
+
+    /* 链接样式 */
+    a {
+      color: #00d4ff;
+      text-decoration: none;
+      transition: all 0.3s;
+      border-bottom: 1px dotted #00d4ff;
+    }
+
+    a:hover {
+      color: #00ff00;
+      border-bottom-color: #00ff00;
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+    }
+
+    /* 技能标签 */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .skill-tag {
+      background: rgba(0, 255, 0, 0.1);
+      border: 1px solid #00ff00;
+      padding: 5px 12px;
+      border-radius: 3px;
+      font-size: 12px;
+      color: #00ff00;
+    }
+
+    /* 项目列表 */
+    .project {
+      margin: 15px 0;
+      padding: 15px;
+      background: rgba(0, 255, 0, 0.05);
+      border-left: 3px solid #00ff00;
+      border-radius: 3px;
+    }
+
+    .project-title {
+      color: #00d4ff;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .project-desc {
+      color: #888;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    /* 联系信息 */
+    .contact-info {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #333;
+    }
+
+    .contact-item {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .contact-label {
+      color: #888;
+      min-width: 80px;
+    }
+
+    /* 打字机效果 */
+    .typing {
+      overflow: hidden;
+      border-right: 2px solid #00ff00;
+      white-space: nowrap;
+      animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent; }
+      50% { border-color: #00ff00; }
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .ascii-art {
+        font-size: 6px;
+      }
+      
+      .terminal-body {
+        padding: 15px;
+      }
+      
+      .output {
+        font-size: 12px;
+      }
+    }
+
+    /* 滚动条样式 */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00ff00;
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, I'm Charles! 🌍</h1>
-  <p>A software engineer with big ambitions!</p>
+  <div class="terminal">
+    <div class="terminal-header">
+      <div class="terminal-dot dot-red"></div>
+      <div class="terminal-dot dot-yellow"></div>
+      <div class="terminal-dot dot-green"></div>
+      <div class="terminal-title">charles@terminal ~</div>
+    </div>
+
+    <div class="terminal-body">
+      <!-- ASCII Art -->
+      <div class="ascii-art" id="asciiArt"></div>
+
+      <!-- 欢迎信息 -->
+      <div class="command" style="animation-delay: 0.5s;">
+        <div class="command-line">
+          <span class="prompt">
+            <span class="user">charles</span>@<span class="host">terminal</span>:<span class="path">~</span>$
+          </span>
+          <span class="typing">whoami</span>
+        </div>
+        <div class="output">Charles Cui - Software Engineer</div>
+      </div>
+
+      <!-- 关于我 -->
+      <div class="command" style="animation-delay: 1s;">
+        <div class="command-line">
+          <span class="prompt">
+            <span class="user">charles</span>@<span class="host">terminal</span>:<span class="path">~</span>$
+          </span>
+          <span>cat about.txt</span>
+        </div>
+        <div class="output-section">
+          <div class="output">
+            <strong>关于我</strong>
+            
+            一个充满野心的软件工程师，热爱编程和技术创新。
+            专注于构建高质量、可扩展的软件解决方案。
+            
+            喜欢探索新技术，解决复杂问题，并将想法转化为现实。
+          </div>
+        </div>
+      </div>
+
+      <!-- 技能 -->
+      <div class="command" style="animation-delay: 1.5s;">
+        <div class="command-line">
+          <span class="prompt">
+            <span class="user">charles</span>@<span class="host">terminal</span>:<span class="path">~</span>$
+          </span>
+          <span>ls skills/</span>
+        </div>
+        <div class="output-section">
+          <div class="output">技能栈：</div>
+          <div class="skills">
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">TypeScript</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Vue.js</span>
+            <span class="skill-tag">Cloudflare</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Linux</span>
+            <span class="skill-tag">Web3</span>
+            <span class="skill-tag">Blockchain</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 项目 -->
+      <div class="command" style="animation-delay: 2s;">
+        <div class="command-line">
+          <span class="prompt">
+            <span class="user">charles</span>@<span class="host">terminal</span>:<span class="path">~</span>$
+          </span>
+          <span>find projects/ -type f</span>
+        </div>
+        <div class="output-section">
+          <div class="project">
+            <div class="project-title">🚀 Project Alpha</div>
+            <div class="output">一个创新的 Web 应用，使用现代技术栈构建</div>
+            <div class="project-desc">Tech: React, Node.js, PostgreSQL</div>
+          </div>
+          <div class="project">
+            <div class="project-title">⚡ Project Beta</div>
+            <div class="output">高性能 API 服务，处理百万级请求</div>
+            <div class="project-desc">Tech: Python, FastAPI, Redis</div>
+          </div>
+          <div class="project">
+            <div class="project-title">🌐 Project Gamma</div>
+            <div class="output">分布式系统架构设计与实现</div>
+            <div class="project-desc">Tech: Go, Kubernetes, Microservices</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 联系方式 -->
+      <div class="command" style="animation-delay: 2.5s;">
+        <div class="command-line">
+          <span class="prompt">
+            <span class="user">charles</span>@<span class="host">terminal</span>:<span class="path">~</span>$
+          </span>
+          <span>cat contact.txt</span>
+        </div>
+        <div class="output-section contact-info">
+          <div class="contact-item">
+            <span class="contact-label">Email:</span>
+            <a href="mailto:cuiwj@teld.cn">cuiwj@teld.cn</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">GitHub:</span>
+            <a href="https://github.com/CuiCharles" target="_blank">github.com/CuiCharles</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Blog:</span>
+            <a href="#" target="_blank">blog.charles.dev</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 交互式提示 -->
+      <div class="command" style="animation-delay: 3s;">
+        <div class="command-line">
+          <span class="prompt">
+            <span class="user">charles</span>@<span class="host">terminal</span>:<span class="path">~</span>$
+          </span>
+          <span id="commandInput"></span>
+          <span class="cursor"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ASCII Art 生成
+    const asciiArt = `
+    ╔═══════════════════════════════════════╗
+    ║                                       ║
+    ║   ██████╗██╗  ██╗ █████╗ ██████╗     ║
+    ║  ██╔════╝██║  ██║██╔══██╗██╔══██╗    ║
+    ║  ██║     ███████║███████║██████╔╝    ║
+    ║  ██║     ██╔══██║██╔══██║██╔══██╗    ║
+    ║  ╚██████╗██║  ██║██║  ██║██║  ██║    ║
+    ║   ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝    ║
+    ║                                       ║
+    ║   Software Engineer & Code Enthusiast ║
+    ╚═══════════════════════════════════════╝
+    `;
+    document.getElementById('asciiArt').textContent = asciiArt;
+
+    // 交互式命令提示
+    const commands = [
+      'help',
+      'ls -la',
+      'cat README.md',
+      'git status',
+      'npm start',
+      'docker ps',
+      'kubectl get pods'
+    ];
+
+    let currentCommandIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const commandInput = document.getElementById('commandInput');
+
+    function typeCommand() {
+      const currentCommand = commands[currentCommandIndex];
+      
+      if (isDeleting) {
+        commandInput.textContent = currentCommand.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        commandInput.textContent = currentCommand.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      if (!isDeleting && charIndex === currentCommand.length) {
+        // 命令输入完成，等待后删除
+        setTimeout(() => {
+          isDeleting = true;
+        }, 2000);
+      } else if (isDeleting && charIndex === 0) {
+        // 删除完成，切换到下一个命令
+        isDeleting = false;
+        currentCommandIndex = (currentCommandIndex + 1) % commands.length;
+      }
+
+      const speed = isDeleting ? 50 : 100;
+      setTimeout(typeCommand, speed);
+    }
+
+    // 延迟启动打字效果
+    setTimeout(typeCommand, 3500);
+
+    // 添加键盘交互（可选）
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        // 可以在这里添加实际的命令执行逻辑
+        console.log('Command executed:', commandInput.textContent);
+      }
+    });
+
+    // 添加鼠标点击交互
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        console.log('Navigating to:', e.target.href);
+      });
+    });
+  </script>
 </body>
 </html>
