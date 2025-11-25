@@ -161,45 +161,6 @@
       color: #00ff00;
     }
 
-    /* 项目列表 */
-    .project {
-      margin: 15px 0;
-      padding: 15px;
-      background: rgba(0, 255, 0, 0.05);
-      border-left: 3px solid #00ff00;
-      border-radius: 3px;
-    }
-
-    .project-title {
-      color: #00d4ff;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .project-desc {
-      color: #888;
-      font-size: 13px;
-      margin-top: 5px;
-    }
-
-    /* 联系信息 */
-    .contact-info {
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 1px solid #333;
-    }
-
-    .contact-item {
-      margin: 10px 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .contact-label {
-      color: #888;
-      min-width: 80px;
-    }
 
     /* 打字机效果 */
     .typing {
@@ -308,75 +269,26 @@
         <div class="output-section">
           <div class="output">技能栈：</div>
           <div class="skills">
+            <span class="skill-tag">C</span>
+            <span class="skill-tag">C++</span>
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">嵌入式开发</span>
+            <span class="skill-tag">Python</span>
             <span class="skill-tag">JavaScript</span>
             <span class="skill-tag">TypeScript</span>
-            <span class="skill-tag">Python</span>
             <span class="skill-tag">Node.js</span>
-            <span class="skill-tag">React</span>
-            <span class="skill-tag">Vue.js</span>
-            <span class="skill-tag">Cloudflare</span>
-            <span class="skill-tag">Docker</span>
-            <span class="skill-tag">Git</span>
             <span class="skill-tag">Linux</span>
-            <span class="skill-tag">Web3</span>
-            <span class="skill-tag">Blockchain</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 项目 -->
-      <div class="command" style="animation-delay: 2s;">
-        <div class="command-line">
-          <span class="prompt">
-            <span class="user">charles</span>@<span class="host">terminal</span>:<span class="path">~</span>$
-          </span>
-          <span>find projects/ -type f</span>
-        </div>
-        <div class="output-section">
-          <div class="project">
-            <div class="project-title">🚀 Project Alpha</div>
-            <div class="output">一个创新的 Web 应用，使用现代技术栈构建</div>
-            <div class="project-desc">Tech: React, Node.js, PostgreSQL</div>
-          </div>
-          <div class="project">
-            <div class="project-title">⚡ Project Beta</div>
-            <div class="output">高性能 API 服务，处理百万级请求</div>
-            <div class="project-desc">Tech: Python, FastAPI, Redis</div>
-          </div>
-          <div class="project">
-            <div class="project-title">🌐 Project Gamma</div>
-            <div class="output">分布式系统架构设计与实现</div>
-            <div class="project-desc">Tech: Go, Kubernetes, Microservices</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 联系方式 -->
-      <div class="command" style="animation-delay: 2.5s;">
-        <div class="command-line">
-          <span class="prompt">
-            <span class="user">charles</span>@<span class="host">terminal</span>:<span class="path">~</span>$
-          </span>
-          <span>cat contact.txt</span>
-        </div>
-        <div class="output-section contact-info">
-          <div class="contact-item">
-            <span class="contact-label">Email:</span>
-            <a href="mailto:cuiwj@teld.cn">cuiwj@teld.cn</a>
-          </div>
-          <div class="contact-item">
-            <span class="contact-label">GitHub:</span>
-            <a href="https://github.com/CuiCharles" target="_blank">github.com/CuiCharles</a>
-          </div>
-          <div class="contact-item">
-            <span class="contact-label">Blog:</span>
-            <a href="#" target="_blank">blog.charles.dev</a>
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">RTOS</span>
+            <span class="skill-tag">ARM</span>
+            <span class="skill-tag">STM32</span>
           </div>
         </div>
       </div>
 
       <!-- 交互式提示 -->
-      <div class="command" style="animation-delay: 3s;">
+      <div class="command" style="animation-delay: 2s;">
         <div class="command-line">
           <span class="prompt">
             <span class="user">charles</span>@<span class="host">terminal</span>:<span class="path">~</span>$
@@ -448,7 +360,7 @@
     }
 
     // 延迟启动打字效果
-    setTimeout(typeCommand, 3500);
+    setTimeout(typeCommand, 2500);
 
     // 添加键盘交互（可选）
     document.addEventListener('keydown', (e) => {
@@ -458,12 +370,6 @@
       }
     });
 
-    // 添加鼠标点击交互
-    document.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', (e) => {
-        console.log('Navigating to:', e.target.href);
-      });
-    });
   </script>
 </body>
 </html>
